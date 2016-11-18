@@ -2,10 +2,11 @@ package main.java.ua.edu.ucu;
 
 import java.util.Arrays;
 
+import main.java.ua.edu.ucu.functions.MyComparator;
+import main.java.ua.edu.ucu.functions.MyFunction;
+import main.java.ua.edu.ucu.functions.MyPredicate;
 import main.java.ua.edu.ucu.smartarr.*;
-import ua.edu.ucu.functions.MyComparator;
-import ua.edu.ucu.functions.MyFunction;
-import ua.edu.ucu.functions.MyPredicate;
+
 
 public class SmartArrayApp {
 
@@ -53,9 +54,38 @@ public class SmartArrayApp {
     public static String[]
             findDistinctStudentNamesFrom2ndYearWithGPAgt4AndOrderedBySurname(Student[] students) {
 
-        // Hint: to convert Object[] to String[] - use the following code
-        //Object[] result = studentSmartArray.toArray();
-        //return Arrays.copyOf(result, result.length, String[].class);
-        return null;
-    }
-}
+//         Hint: to convert Object[] to String[] - use the following code
+//        Object[] result = studentSmartArray.toArray();
+//        return Arrays.copyOf(result, result.length, String[].class);
+//        SmartArray studentSmartArray = new BaseArray(students);
+        MyPredicate myPred = new MyPredicate() {
+            @Override
+            public boolean test(Object t) {
+                return ((Student) t).getYear() == 2;
+            }
+        };
+        MyPredicate myPred1 = new MyPredicate() {
+            @Override
+            public boolean test(Object t) {
+                return ((Student )t).getGPA() > 4;
+            }
+        };
+         MyComparator myComparator = new MyComparator() {
+             @Override
+             public int compare(Object o1, Object o2) {
+                 int result = (((Student) o1).getSurname().compareTo(((Student) o2).getSurname()));
+                 return result;
+             }
+         };
+        SmartArray studentSmartArray = new BaseArray(students);
+
+        studentSmartArray = new DistinctDecorator(studentSmartArray); // Result: [2, 1, 3];
+        studentSmartArray = new FilterDecorator(studentSmartArray, myPred); // Result: [1, 2, 3]
+        studentSmartArray = new FilterDecorator(studentSmartArray, myPred1);
+        studentSmartArray = new SortDecorator(studentSmartArray, myComparator);
+
+
+        Object[] result = studentSmartArray.toArray();
+        return Arrays.copyOf(result, result.length, String[].class);
+
+    }}

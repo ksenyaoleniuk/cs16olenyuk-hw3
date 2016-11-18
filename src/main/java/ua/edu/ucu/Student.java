@@ -1,7 +1,9 @@
 package main.java.ua.edu.ucu;
 
 
-class Student {
+import java.util.Objects;
+
+public class Student {
 
     private double GPA;
     private int year;
@@ -35,5 +37,8 @@ class Student {
     public String toString() {
         return "Student{name=" + name + ", surname=" + surname + ", " + "GPA=" + GPA + ", year=" + year + '}';
     }
+    public boolean equals(Object student){
+        return (student instanceof Student) && (Objects.equals(((Student)student).getSurname(), getSurname())) && (Objects.equals(((Student) student
+        ).getName(), getName())) && (((Student)student).getGPA() == getGPA()) && (((Student)student).getYear() == getYear());}
 
 }
