@@ -24,17 +24,18 @@ public class DistinctDecorator extends SmartArrayDecorator {
         Object[] tmp = smartArray.toArray();
         for (int i = 0; i < tmp.length; i++) {
             for (int j = i; j < tmp.length; j++) {
-                if (tmp[i].equals(tmp[j]) && (i != j) && (! tmp[i].equals(("equal")))) {
-                    tmp[i] = "equal";
+                if (tmp[i] != null){
+                if (tmp[i].equals(tmp[j]) && (i != j)) {
+                    tmp[i] = null;
                     newSize--;
                 }
 
             }
-        }
+        }}
         int j = 0;
         Object[] newList = new Object[newSize];
         for(int i = 0; i < tmp.length; i++){
-            if(!tmp[i].equals("equal")){
+            if(tmp[i] != null){
                 newList[j] = tmp[i];
                 j++;
             }

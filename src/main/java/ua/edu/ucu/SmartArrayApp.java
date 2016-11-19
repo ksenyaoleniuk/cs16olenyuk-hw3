@@ -67,7 +67,7 @@ public class SmartArrayApp {
         MyPredicate myPred1 = new MyPredicate() {
             @Override
             public boolean test(Object t) {
-                return ((Student )t).getGPA() > 4;
+                return ((Student )t).getGPA() >= 4;
             }
         };
          MyComparator myComparator = new MyComparator() {
@@ -77,13 +77,19 @@ public class SmartArrayApp {
                  return result;
              }
          };
+         MyFunction myfunc = new MyFunction() {
+             @Override
+             public Object apply(Object t) {
+                 return ((Student)t).getSurname() + " "+ ((Student)t).getName();
+             }
+         };
         SmartArray studentSmartArray = new BaseArray(students);
 
         studentSmartArray = new DistinctDecorator(studentSmartArray); // Result: [2, 1, 3];
         studentSmartArray = new FilterDecorator(studentSmartArray, myPred); // Result: [1, 2, 3]
         studentSmartArray = new FilterDecorator(studentSmartArray, myPred1);
         studentSmartArray = new SortDecorator(studentSmartArray, myComparator);
-
+        studentSmartArray = new MapDecorator(studentSmartArray, myfunc);
 
         Object[] result = studentSmartArray.toArray();
         return Arrays.copyOf(result, result.length, String[].class);
